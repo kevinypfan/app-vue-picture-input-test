@@ -1,49 +1,43 @@
 <template>
   <div id="app">
-    <div class="hello">
-    <picture-input
-      ref="pictureInput"
-      @change="onChange"
-      width="600"
-      height="600"
-      margin="16"
-      accept="image/jpeg,image/png"
-      size="10"
-      buttonClass="btn"
-      :customStrings="{
-        upload: '<h1>Bummer!</h1>',
-        drag: 'Drag a 😺 GIF or GTFO'
-      }">
-    </picture-input>
-  </div>
 
-  <img src="/upload/4d9a5804916e8bb9c3938ad60750b26d" alt="">
+    <VueImgInputer v-model="picValue" theme="light" size="large" accept="image/*" icon="img" placeholder="點擊或拖曳選擇圖片" bottomText="點擊或拖曳以修改"></VueImgInputer>
+    <button type="button" name="button" @click="send">send</button>
   </div>
 </template>
 
 <script>
-import PictureInput from 'vue-picture-input'
+import VueImgInputer from 'vue-img-inputer'
 export default {
-  data () {
+  data() {
     return {
+      picValue: ""
     }
   },
   components: {
-    PictureInput
+    VueImgInputer
+  },
+  watch: {
+    picValue (val) {
+      if (val !== ""){
+        console.log(val);
+      }
+    }
   },
   methods: {
-    onChange () {
-      console.log('New picture selected!')
-      if (this.$refs.pictureInput.image) {
-        console.log(this.$refs.pictureInput.image)
-      } else {
-        console.log('FileReader API not supported: use the <form>, Luke!')
-      }
-      // this.$http.post('/upload', formData).then((res) => {
-      //   console.log("yes")
-      // },(err) => {
-      //   console.log("no")
-      // })
+    send () {
+      console.log(formData);
+      var hello = "asd123";
+      var world = "zxc123";
+      var formData = new FormData();
+      formData.append('logo',this.picValue)
+      formData.append('hello',hello)
+      formData.append('world',world)
+      this.$http.post('/profile',formData).then(() => {
+        console.log("success");
+      },()=> {
+        console.log("none");
+      })
     }
   }
 }
